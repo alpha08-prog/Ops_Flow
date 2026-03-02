@@ -40,10 +40,12 @@ pipeline {
 }
         
         stage('Build Docker Images') {
-            steps {
-                bat '%DOCKER_COMPOSE% build'
-            }
+    steps {
+        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+            bat '%DOCKER_COMPOSE% build'
         }
+    }
+}
         
         stage('Deploy via Docker Compose') {
             steps {
