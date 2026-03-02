@@ -56,7 +56,7 @@ pipeline {
     
     post {
         always {
-            echo 'Pipeline execution complete.'
+            echo 'Pipeline execution complete.' 
         }
         success {
             echo 'OMS Application successfully deployed!'
