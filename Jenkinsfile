@@ -25,21 +25,19 @@ pipeline {
         }
         
         stage('Test & Lint') {
-            steps {
-                dir('frontend') {
-                    // Running tests but allowing them to fail without stopping the pipeline for now
-                    bat 'npm run test:ui -- --run || exit 0' 
-                    // bat 'npm run lint || exit 0'
-                }
-                dir('backend') {
-                    // bat 'npm run test || exit 0'
-                }
+    steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+            dir('frontend') {
+                bat 'npm run test:ui -- --run'
+                // bat 'npm run lint'
             }
-            // Temporarily ignore test failures so the deployment works first time
-            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                echo "Tests failed, but proceeding anyway for initial setup."
+            dir('backend') {
+                // bat 'npm run test'
             }
+            echo "Tests failed, but proceeding anyway for initial setup."
         }
+    }
+}
         
         stage('Build Docker Images') {
             steps {
