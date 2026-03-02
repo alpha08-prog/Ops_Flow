@@ -14,12 +14,12 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                // Warning: To run this natively on Windows Jenkins, change 'sh' to 'bat'
+                // Modified to run natively on Windows Jenkins using 'bat'
                 dir('frontend') {
-                    sh 'npm install'
+                    bat 'npm install'
                 }
                 dir('backend') {
-                    sh 'npm install'
+                    bat 'npm install'
                 }
             }
         }
@@ -28,11 +28,11 @@ pipeline {
             steps {
                 dir('frontend') {
                     // Running tests but allowing them to fail without stopping the pipeline for now
-                    sh 'npm run test:ui -- --run || true' 
-                    // sh 'npm run lint || true'
+                    bat 'npm run test:ui -- --run || exit 0' 
+                    // bat 'npm run lint || exit 0'
                 }
                 dir('backend') {
-                    // sh 'npm run test || true'
+                    // bat 'npm run test || exit 0'
                 }
             }
             // Temporarily ignore test failures so the deployment works first time
@@ -43,13 +43,13 @@ pipeline {
         
         stage('Build Docker Images') {
             steps {
-                sh '${DOCKER_COMPOSE} build'
+                bat '%DOCKER_COMPOSE% build'
             }
         }
         
         stage('Deploy via Docker Compose') {
             steps {
-                sh '${DOCKER_COMPOSE} up -d'
+                bat '%DOCKER_COMPOSE% up -d'
             }
         }
     }

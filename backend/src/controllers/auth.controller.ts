@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { UserRole } from '@prisma/client';
 import prisma, { withRetry } from '../lib/prisma';
-import { hashPassword, comparePassword, validatePasswordStrength } from '../utils/password';
+import * as passwordUtils from '../utils/password';
 import { generateToken } from '../utils/jwt';
 import { sendSuccess, sendError, sendServerError } from '../utils/response';
 import type { AuthenticatedRequest, LoginRequest, RegisterRequest } from '../types';
@@ -15,7 +15,7 @@ export async function register(req: Request, res: Response): Promise<void> {
     const { name, email, phone, password, role } = req.body as RegisterRequest;
 
     // Validate password strength
-    const passwordValidation = validatePasswordStrength(password);
+    const passwordValidation = passwordUtils.validatePasswordStrength(password);
     if (!passwordValidation.isValid) {
       sendError(res, passwordValidation.errors.join('. '), 400);
       return;
@@ -37,7 +37,7 @@ export async function register(req: Request, res: Response): Promise<void> {
     }
 
     // Hash password
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await passwordUtils.hashPassword(password);
 
     // Create user (default role is STAFF unless specified by admin)
     const user = await prisma.user.create({
@@ -108,7 +108,7 @@ export async function login(req: Request, res: Response): Promise<void> {
     }
 
     // Verify password
-    const isValidPassword = await comparePassword(password, user.password);
+    const isValidPassword = await passwordUtils.comparePassword(password, user.password);
 
     if (!isValidPassword) {
       sendError(res, 'Invalid credentials', 401);
@@ -199,21 +199,21 @@ export async function updatePassword(
     }
 
     // Verify current password
-    const isValidPassword = await comparePassword(currentPassword, user.password);
+    const isValidPassword = await passwordUtils.comparePassword(currentPassword, user.password);
     if (!isValidPassword) {
       sendError(res, 'Current password is incorrect', 400);
       return;
     }
 
     // Validate new password strength
-    const passwordValidation = validatePasswordStrength(newPassword);
+    const passwordValidation = passwordUtils.validatePasswordStrength(newPassword);
     if (!passwordValidation.isValid) {
       sendError(res, passwordValidation.errors.join('. '), 400);
       return;
     }
 
     // Hash and update password
-    const hashedPassword = await hashPassword(newPassword);
+    const hashedPassword = await passwordUtils.hashPassword(newPassword);
     await prisma.user.update({
       where: { id: req.user.id },
       data: { password: hashedPassword },

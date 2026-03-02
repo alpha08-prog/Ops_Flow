@@ -1,0 +1,74 @@
+﻿node.exe : PASS src/co
+ntrollers/auth.control
+ler.test.ts
+At line:1 char:1
++ & "C:\Program Files\
+nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (PASS src/c   
+ ontro...troller.t    
+est.ts:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+  Auth Controller - 
+Integration Tests 
+(BDD Style)
+    POST 
+/api/auth/register
+      ΓêÜ given valid 
+user data, when 
+registering, then it 
+should return 201 and 
+user info (297 ms)
+      ΓêÜ given 
+existing email, when 
+registering, then it 
+should return 409 
+conflict (6 ms)
+      ΓêÜ given weak 
+password, when 
+registering, then it 
+should return 422 bad 
+request (3 ms)
+    POST 
+/api/auth/login
+      ΓêÜ given valid 
+credentials, when 
+logging in, then it 
+should return 200 and 
+auth token (6 ms)
+      ΓêÜ given 
+invalid password, 
+when logging in, then 
+it should return 401 
+unauthorized (498 ms)
+
+Test Suites: 1 
+passed, 1 total
+Tests:       5 
+passed, 5 total
+Snapshots:   0 total
+Time:        4.916 s
+Ran all test suites 
+matching src/controlle
+rs/auth.controller.tes
+t.ts.
+Force exiting Jest: 
+Have you considered 
+using 
+`--detectOpenHandles` 
+to detect async 
+operations that kept 
+running after all 
+tests finished?

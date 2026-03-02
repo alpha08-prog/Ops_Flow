@@ -20,7 +20,7 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps or Postman)
     if (!origin) return callback(null, true);
-    
+
     // Check if origin is allowed
     if (config.allowedOrigins.includes(origin) || config.nodeEnv === 'development') {
       callback(null, true);
@@ -88,28 +88,31 @@ app.use(errorHandler);
 
 const PORT = config.port;
 
-app.listen(PORT, () => {
-  console.log(`
-╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║   🏛️  Office Management System (OMS) API                      ║
-║                                                               ║
-║   Server running on: http://localhost:${PORT}                 ║
-║   Environment: ${config.nodeEnv.padEnd(46)}                   ║
-║                                                               ║
-║   API Endpoints:                                              ║
-║   • Auth:          /api/auth                                  ║
-║   • Grievances:    /api/grievances                            ║
-║   • Visitors:      /api/visitors                              ║
-║   • News:          /api/news                                  ║
-║   • Train Requests:/api/train-requests                        ║
-║   • Tour Programs: /api/tour-programs                         ║
-║   • Statistics:    /api/stats                                 ║
-║   • PDF Generator: /api/pdf                                   ║
-║   • Health:        /api/health                                ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
-  `);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`
+  ╔═══════════════════════════════════════════════════════════════╗
+  ║                                                               ║
+  ║   🏛️  Office Management System (OMS) API                      ║
+  ║                                                               ║
+  ║   Server running on: http://localhost:${PORT}                 ║
+  ║   Environment: ${config.nodeEnv.padEnd(46)}                   ║
+  ║                                                               ║
+  ║   API Endpoints:                                              ║
+  ║   • Auth:          /api/auth                                  ║
+  ║   • Grievances:    /api/grievances                            ║
+  ║   • Visitors:      /api/visitors                              ║
+  ║   • News:          /api/news                                  ║
+  ║   • Train Requests:/api/train-requests                        ║
+  ║   • Tour Programs: /api/tour-programs                         ║
+  ║   • Statistics:    /api/stats                                 ║
+  ║   • PDF Generator: /api/pdf                                   ║
+  ║   • Health:        /api/health                                ║
+  ║                                                               ║
+  ╚═══════════════════════════════════════════════════════════════╝
+    `);
+  });
+}
+
 
 export default app;
