@@ -32,7 +32,7 @@ pipeline {
                 // bat 'npm run lint'
             }
             dir('backend') {
-                // bat 'npm run test'
+                bat 'npm run test'
             }
             echo "Tests failed, but proceeding anyway for initial setup."
         }

@@ -23,7 +23,7 @@ describe('Auth Controller - Integration Tests (BDD Style)', () => {
         it('given valid user data, when registering, then it should return 201 and user info', async () => {
             // Arrange
             const mockUser = {
-                id: 'user-123',
+                id: '123e4567-e89b-12d3-a456-426614174010',
                 name: 'Test Setup',
                 email: 'test@example.com',
                 phone: '1234567890',
@@ -99,7 +99,7 @@ describe('Auth Controller - Integration Tests (BDD Style)', () => {
             jest.spyOn(passwordUtils, 'comparePassword').mockResolvedValue(true);
 
             const mockUser = {
-                id: 'user-123',
+                id: '123e4567-e89b-12d3-a456-426614174010',
                 name: 'Test Setup',
                 email: 'test@example.com',
                 phone: null,
@@ -130,7 +130,7 @@ describe('Auth Controller - Integration Tests (BDD Style)', () => {
             const hashedPassword = await hashPassword('StrongPassword123!');
 
             const mockUser = {
-                id: 'user-123',
+                id: '123e4567-e89b-12d3-a456-426614174010',
                 name: 'Test Setup',
                 email: 'test@example.com',
                 password: hashedPassword,
@@ -154,3 +154,9 @@ describe('Auth Controller - Integration Tests (BDD Style)', () => {
         });
     });
 });
+
+
+
+
+
+
