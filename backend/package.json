@@ -12,7 +12,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "seed": "ts-node prisma/seed.ts",
-    "test": "jest",
+    "test": "prisma generate && jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
