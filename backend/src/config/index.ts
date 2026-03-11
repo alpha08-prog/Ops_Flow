@@ -19,7 +19,9 @@ export const config = {
     'http://localhost:5175',
     'http://127.0.0.1:5173',
     'http://127.0.0.1:5174',
-  ],
+    'https://ops-flow-gold.vercel.app',
+    process.env.FRONTEND_URL || '',
+  ].filter(Boolean),
   
   // Database
   databaseUrl: process.env.DATABASE_URL,
